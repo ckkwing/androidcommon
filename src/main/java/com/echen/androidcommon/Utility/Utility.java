@@ -18,8 +18,4 @@ public class Utility {
         Matcher m = p.matcher(email);
         return m.matches();
     }
-
-    public static void test()
-    {}
-    
 }
