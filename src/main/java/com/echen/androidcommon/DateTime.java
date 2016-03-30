@@ -198,13 +198,13 @@ public class DateTime {
         String strFormat = (null == format || format.isEmpty()) ? DATETIME_FORMAT : format;
         DateFormat dateFormat = new SimpleDateFormat(strFormat);
         StringBuffer UTCTimeBuffer = new StringBuffer();
-//        // 1¡¢get local time
+//        // 1get local time
 //        Calendar cal = Calendar.getInstance() ;
-//        // 2¡¢get time offset£º
+//        // 2get time offsetï¿½ï¿½
 //        int zoneOffset = cal.get(java.util.Calendar.ZONE_OFFSET);
-//        // 3¡¢È¡µÃÏÄÁîÊ±²î£º
+//        // 3î£º
 //        int dstOffset = cal.get(java.util.Calendar.DST_OFFSET);
-//        // 4¡¢´Ó±¾µØÊ±¼äÀï¿Û³ýÕâÐ©²îÁ¿£¬¼´¿ÉÒÔÈ¡µÃUTCÊ±¼ä£º
+//        // 4
 //        cal.add(java.util.Calendar.MILLISECOND, -(zoneOffset + dstOffset));
         Calendar cal = getUTCCalendarFromLocal(new Date());
         int year = cal.get(Calendar.YEAR);
@@ -248,11 +248,11 @@ public class DateTime {
         if (null == date)
             date = new Date();
         calendar.setTime(date);
-        // 2¡¢get time offset£º
+        // 2ï¿½ï¿½get time offsetï¿½ï¿½
         int zoneOffset = calendar.get(java.util.Calendar.ZONE_OFFSET);
-        // 3¡¢È¡µÃÏÄÁîÊ±²î£º
+        // 3ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½î£º
         int dstOffset = calendar.get(java.util.Calendar.DST_OFFSET);
-        // 4¡¢´Ó±¾µØÊ±¼äÀï¿Û³ýÕâÐ©²îÁ¿£¬¼´¿ÉÒÔÈ¡µÃUTCÊ±¼ä£º
+        // 4ï¿½ï¿½ï¿½Ó±ï¿½ï¿½ï¿½Ê±ï¿½ï¿½ï¿½ï¿½Û³ï¿½ï¿½ï¿½Ð©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½ï¿½UTCÊ±ï¿½ä£º
         calendar.add(java.util.Calendar.MILLISECOND, -(zoneOffset + dstOffset));
         return calendar;
     }
@@ -260,11 +260,11 @@ public class DateTime {
     public static Date getLocalTimeFromUTC(long milliseconds) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTimeInMillis(milliseconds);
-        // 2¡¢get time offset£º
+        // 2ï¿½ï¿½get time offsetï¿½ï¿½
         int zoneOffset = calendar.get(java.util.Calendar.ZONE_OFFSET);
-        // 3¡¢È¡µÃÏÄÁîÊ±²î£º
+        // 3ï¿½ï¿½È¡ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ê±ï¿½î£º
         int dstOffset = calendar.get(java.util.Calendar.DST_OFFSET);
-        // 4¡¢´ÓUTCÊ±¼äÀï¼ÓÉÏÕâÐ©²îÁ¿£¬¼´¿ÉÒÔÈ¡µÃ±¾µØÊ±¼ä£º
+        // 4ï¿½ï¿½ï¿½ï¿½UTCÊ±ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½Ð©ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½ï¿½È¡ï¿½Ã±ï¿½ï¿½ï¿½Ê±ï¿½ä£º
         calendar.add(java.util.Calendar.MILLISECOND, (zoneOffset + dstOffset));
         return calendar.getTime();
     }

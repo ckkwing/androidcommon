@@ -36,7 +36,7 @@ public class ExpandableListViewForScrollView extends ExpandableListView {
     public boolean onInterceptTouchEvent(MotionEvent ev) {
         switch (ev.getAction()) {
             case MotionEvent.ACTION_DOWN: {
-                setParentScrollAble(false);//当手指触到listview的时候，让父ScrollView交出ontouch权限，也就是让父scrollview
+                setParentScrollAble(false);
                 Log.d(TAG, "onInterceptTouchEvent down");
             }
             break;
@@ -49,7 +49,7 @@ public class ExpandableListViewForScrollView extends ExpandableListView {
             }
             break;
             case MotionEvent.ACTION_CANCEL: {
-                setParentScrollAble(true);//当手指松开时，让父ScrollView重新拿到onTouch权限
+                setParentScrollAble(true);
                 Log.d(TAG, "onInterceptTouchEvent cancel");
             }
             break;
