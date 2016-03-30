@@ -19,4 +19,7 @@ public class Utility {
         return m.matches();
     }
 
+    public static void test()
+    {}
+    
 }
