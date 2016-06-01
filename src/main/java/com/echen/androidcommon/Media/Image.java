@@ -4,23 +4,31 @@ import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.provider.MediaStore;
-
-import com.echen.androidcommon.FileSystem.File;
 
 /**
  * Created by echen on 2015/1/27.
  */
-public class Image extends File {
-//    private int id;
-//    private String title;
-//    private String displayName;
-//    private String mimeType;
-//    private String path;
-//    private long size;
+public class Image extends Media {
+
+    private Uri thumbnailUri = null;
+    public Uri getThumbnailUri() {
+        return thumbnailUri;
+    }
+
+    public void setThumbnailUri(Uri thumbnailUri) {
+        this.thumbnailUri = thumbnailUri;
+    }
+
+    private String[] projection = new String[]{
+            MediaStore.Images.Thumbnails.DATA,
+            MediaStore.Images.Thumbnails.KIND
+    };
 
     public Image() {
         super();
+        this.mediaType = MediaCenter.MediaType.Image;
     }
 
     /**
@@ -34,6 +42,7 @@ public class Image extends File {
     public Image(int id, String title, String displayName, String mimeType,
                  String path, long size) {
         super(id, title, displayName, mimeType, path, size);
+        this.mediaType = MediaCenter.MediaType.Image;
     }
 
     @Override
@@ -48,9 +57,32 @@ public class Image extends File {
             cursor.moveToFirst();
             uri = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Thumbnails.DATA));
             }
-        cursor.close();
+        if (null != cursor)
+            cursor.close();
         if (uri.isEmpty())
             return null;
         return BitmapFactory.decodeFile(uri);
+    }
+
+    @Override
+    public Uri getThumbnailUrl(Context context) {
+        Uri uri = null;
+        String strUri = "";
+        Cursor cursor = MediaStore.Images.Thumbnails.queryMiniThumbnail(
+                context.getContentResolver(), this.id,
+                MediaStore.Images.Thumbnails.MICRO_KIND,
+                null);
+        if (cursor != null && cursor.getCount() > 0) {
+            cursor.moveToFirst();
+            strUri = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Thumbnails.DATA));
+            if (!strUri.isEmpty())
+            {
+                uri = Uri.parse(strUri);
+            }
+        }
+        if (null != cursor)
+            cursor.close();
+
+        return uri;
     }
 }

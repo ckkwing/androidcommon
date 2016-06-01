@@ -2,13 +2,14 @@ package com.echen.androidcommon.Media;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.net.Uri;
 
 import com.echen.androidcommon.FileSystem.File;
 
 /**
  * Created by echen on 2015/1/27.
  */
-public class Audio extends File {
+public class Audio extends Media {
 
 //    private int id;
 //    private String title;
@@ -25,6 +26,7 @@ public class Audio extends File {
      */
     public Audio() {
         super();
+        this.mediaType = MediaCenter.MediaType.Audio;
     }
 
     /**
@@ -45,6 +47,7 @@ public class Audio extends File {
         this.album = album;
         this.artist = artist;
         this.duration = duration;
+        this.mediaType = MediaCenter.MediaType.Audio;
     }
 
     public String getAlbum() {
@@ -73,6 +76,11 @@ public class Audio extends File {
 
     @Override
     public Bitmap getThumbnail(Context context) {
+        return null;
+    }
+
+    @Override
+    public Uri getThumbnailUrl(Context context) {
         return null;
     }
 }

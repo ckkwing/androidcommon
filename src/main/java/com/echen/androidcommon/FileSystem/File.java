@@ -12,12 +12,12 @@ public abstract class File extends FileSystemInfo {
         super();
     }
 
-    public File(int id, String title, String dicsplayName, String mimeType,
+    public File(int id, String title, String displayName, String mimeType,
                 String path, long size)
     {
-        super(id, title, dicsplayName, mimeType, path, size);
+        super(id, title, displayName, mimeType, path, size);
     }
 
-    public abstract Bitmap getThumbnail(Context context);
+//    public abstract Bitmap getThumbnail(Context context);
 
 }
