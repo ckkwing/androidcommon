@@ -220,13 +220,17 @@ public class ImageUtility {
     }
 
     public static boolean saveBitmapAsPng(Bitmap bitmap, String path) {
+        return saveBitmap(bitmap, path, Bitmap.CompressFormat.PNG);
+    }
+
+    public static boolean saveBitmap(Bitmap bitmap, String path, Bitmap.CompressFormat compressFormat) {
         boolean bState = false;
         File file = new File(path);
         try {
             BufferedOutputStream outStream = new BufferedOutputStream(
                     new FileOutputStream(file));
             bState = bitmap
-                    .compress(Bitmap.CompressFormat.JPEG, 100, outStream);
+                    .compress(compressFormat, 100, outStream);
             outStream.flush();
             outStream.close();
         } catch (FileNotFoundException e) {

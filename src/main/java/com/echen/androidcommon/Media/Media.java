@@ -11,6 +11,15 @@ import com.echen.androidcommon.FileSystem.File;
  */
 public abstract class Media extends File {
 
+    protected Uri thumbnailUri = null;
+    public Uri getThumbnailUri() {
+        return thumbnailUri;
+    }
+
+    public void setThumbnailUri(Uri thumbnailUri) {
+        this.thumbnailUri = thumbnailUri;
+    }
+
     protected MediaCenter.MediaType mediaType;
     public MediaCenter.MediaType getMediaType() {
         return mediaType;
@@ -25,5 +34,5 @@ public abstract class Media extends File {
     }
 
     public abstract Bitmap getThumbnail(Context context);
-    public abstract Uri getThumbnailUrl(Context context);
+    public abstract Uri tryToGetThumbnailUri(Context context, String cacheThumbnailPath);
 }

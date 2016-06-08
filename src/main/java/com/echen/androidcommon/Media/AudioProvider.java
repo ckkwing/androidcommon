@@ -2,6 +2,7 @@ package com.echen.androidcommon.Media;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.MediaStore;
 
 import java.util.ArrayList;
@@ -12,9 +13,11 @@ import java.util.List;
  */
 public class AudioProvider implements IMediaProvider {
     private Context context = null;
+    private String cacheThumbnailPath = "";
 
-    public AudioProvider(Context context) {
+    public AudioProvider(Context context, String cacheThumbnailPath) {
         this.context = context;
+        this.cacheThumbnailPath = cacheThumbnailPath;
     }
 
     @Override
@@ -57,6 +60,9 @@ public class AudioProvider implements IMediaProvider {
                             .getColumnIndexOrThrow(MediaStore.Audio.Media.SIZE));
             Audio audio = new Audio(id, title, album, artist, path,
                     displayName, mimeType, duration, size);
+
+            Uri thumbnailUri = audio.tryToGetThumbnailUri(context, cacheThumbnailPath);
+            audio.setThumbnailUri(thumbnailUri);
             list.add(audio);
         }
         cursor.close();

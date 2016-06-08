@@ -14,9 +14,11 @@ import java.util.List;
  */
 public class ImageProvider implements IMediaProvider {
     private Context context = null;
+    private String cacheThumbnailPath = "";
 
-    public ImageProvider(Context context){
+    public ImageProvider(Context context, String cacheThumbnailPath){
         this.context = context;
+        this.cacheThumbnailPath = cacheThumbnailPath;
     }
 
     @Override
@@ -51,7 +53,9 @@ public class ImageProvider implements IMediaProvider {
                             .getColumnIndexOrThrow(MediaStore.Images.Media.SIZE));
             Image image = new Image(id, title, displayName, mimeType,
                     path, size);
-            Uri uri = Uri.parse(path);
+//            Uri uri = Uri.parse(path);
+            Uri thumbnailUri = image.tryToGetThumbnailUri(context, cacheThumbnailPath);
+            image.setThumbnailUri(thumbnailUri);
 
             list.add(image);
         }

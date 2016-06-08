@@ -9,13 +9,16 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
+import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
+import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
+import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
@@ -50,8 +53,44 @@ public class AESUtility {
         return cipher;
     }
 
-    public static File encryptFile(File sourceFile, String directory, String encryptedFileName, String key)
-    {
+    //            byte[] encryptResult = AESUtility.encrypt(media.getPath(), "ckk");
+//            String encryptResultStr = StringHelper.parseByte2HexStr(encryptResult);
+//
+//            byte[] decryptResult = AESUtility.decrypt(encryptResult,"ckk");
+//            String encryptResultStr1 = StringHelper.parseByte2HexStr(decryptResult);
+
+
+//    public static byte[] encrypt(String content, String key) {
+//        byte[] result = new byte[0];
+//        try {
+//            Cipher cipher = initAESCipher(key, Cipher.ENCRYPT_MODE);
+//            byte[] byteContent = content.getBytes("utf-8");
+//            result = cipher.doFinal(byteContent);
+//        } catch (UnsupportedEncodingException e) {
+//            e.printStackTrace();
+//        } catch (IllegalBlockSizeException e) {
+//            e.printStackTrace();
+//        } catch (BadPaddingException e) {
+//            e.printStackTrace();
+//        }
+//        return result;
+//    }
+//
+//    public static byte[] decrypt(byte[] content, String key) {
+//        byte[] result = new byte[0];
+//        try {
+//            Cipher cipher = initAESCipher(key, Cipher.DECRYPT_MODE);
+//            result = cipher.doFinal(content);
+//        } catch (IllegalBlockSizeException e) {
+//            e.printStackTrace();
+//        } catch (BadPaddingException e) {
+//            e.printStackTrace();
+//        }
+//
+//        return result;
+//    }
+
+    public static File encryptFile(File sourceFile, String directory, String encryptedFileName, String key) {
         File encryptedfile = null;
         InputStream inputStream = null;
         OutputStream outputStream = null;
@@ -68,10 +107,9 @@ public class AESUtility {
                 outputStream.flush();
             }
             cipherInputStream.close();
-        }
-        catch (FileNotFoundException e) {
+        } catch (FileNotFoundException e) {
             e.printStackTrace();
-        } catch (IOException e){
+        } catch (IOException e) {
             e.printStackTrace();
         } finally {
             try {
@@ -88,13 +126,13 @@ public class AESUtility {
         return encryptedfile;
     }
 
-    public static File encryptFile(File sourceFile, String prefix, String fileSuffix,File directory, String key) {
+    public static File encryptFile(File sourceFile, String prefix, String fileSuffix, File directory, String key) {
         File encryptedfile = null;
         InputStream inputStream = null;
         OutputStream outputStream = null;
         try {
             inputStream = new FileInputStream(sourceFile);
-            encryptedfile = File.createTempFile(prefix, fileSuffix,directory);
+            encryptedfile = File.createTempFile(prefix, fileSuffix, directory);
             outputStream = new FileOutputStream(encryptedfile);
             Cipher cipher = initAESCipher(key, Cipher.ENCRYPT_MODE);
             CipherInputStream cipherInputStream = new CipherInputStream(inputStream, cipher);
@@ -126,11 +164,10 @@ public class AESUtility {
     }
 
     public static File encryptFile(File sourceFile, String fileSuffix, String key) {
-        return encryptFile(sourceFile,sourceFile.getName(), fileSuffix, null, key);
+        return encryptFile(sourceFile, sourceFile.getName(), fileSuffix, null, key);
     }
 
-    public static File decryptFile(File sourceFile, String directory, String decryptedFileName, String key)
-    {
+    public static File decryptFile(File sourceFile, String directory, String decryptedFileName, String key) {
         File decryptedfile = null;
         InputStream inputStream = null;
         OutputStream outputStream = null;
@@ -163,8 +200,7 @@ public class AESUtility {
         return decryptedfile;
     }
 
-    public static File decryptFile(File sourceFile, String prefix, String fileSuffix,File directory, String key)
-    {
+    public static File decryptFile(File sourceFile, String prefix, String fileSuffix, File directory, String key) {
         File decryptedfile = null;
         InputStream inputStream = null;
         OutputStream outputStream = null;
@@ -198,6 +234,6 @@ public class AESUtility {
     }
 
     public static File decryptFile(File sourceFile, String fileSuffix, String key) {
-        return decryptFile(sourceFile,sourceFile.getName(), fileSuffix, null, key);
+        return decryptFile(sourceFile, sourceFile.getName(), fileSuffix, null, key);
     }
 }

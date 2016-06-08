@@ -14,19 +14,19 @@ public class MediaCenter {
         Audio
     }
 
-    public static IMediaProvider CreateMediaProvider(Context context, MediaType mediaType)
+    public static IMediaProvider CreateMediaProvider(Context context, MediaType mediaType, String cacheThumbnailPath)
     {
         IMediaProvider iMediaProvider = null;
         switch (mediaType)
         {
             case Image:
-                iMediaProvider = new ImageProvider(context);
+                iMediaProvider = new ImageProvider(context, cacheThumbnailPath);
                 break;
             case Video:
-                iMediaProvider = new VideoProvider(context);
+                iMediaProvider = new VideoProvider(context, cacheThumbnailPath);
                 break;
             case Audio:
-                iMediaProvider = new AudioProvider(context);
+                iMediaProvider = new AudioProvider(context, cacheThumbnailPath);
                 break;
             default:
                 break;

@@ -2,9 +2,14 @@ package com.echen.androidcommon.Media;
 
 import android.content.Context;
 import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.media.MediaMetadataRetriever;
 import android.net.Uri;
+import android.provider.MediaStore;
 
+import com.echen.androidcommon.Crypto.MD5Utility;
 import com.echen.androidcommon.FileSystem.File;
+import com.echen.androidcommon.Utility.ImageUtility;
 
 /**
  * Created by echen on 2015/1/27.
@@ -80,7 +85,42 @@ public class Audio extends Media {
     }
 
     @Override
-    public Uri getThumbnailUrl(Context context) {
-        return null;
+    public Uri tryToGetThumbnailUri(Context context, String cacheThumbnailPath) {
+        Uri uri = null;
+        String pathMD5= MD5Utility.getMD5(getPath());
+        String savedPath = cacheThumbnailPath + java.io.File.separator + pathMD5 + ".png";
+        java.io.File cacheFile = new java.io.File(savedPath);
+        if (cacheFile.exists())
+        {
+            uri = Uri.fromFile(cacheFile);
+        }
+        else {
+            Bitmap bitmap = createAlbumArt(getPath());
+            if (ImageUtility.saveBitmapAsPng(bitmap, savedPath))
+            {
+                uri = Uri.fromFile(cacheFile);
+            }
+        }
+        return uri;
+    }
+
+    public Bitmap createAlbumArt(final String filePath) {
+        Bitmap bitmap = null;
+        //能够获取多媒体文件元数据的类
+        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        try {
+            retriever.setDataSource(filePath); //设置数据源
+            byte[] embedPic = retriever.getEmbeddedPicture(); //得到字节型数据
+            bitmap = BitmapFactory.decodeByteArray(embedPic, 0, embedPic.length); //转换为图片
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                retriever.release();
+            } catch (Exception e2) {
+                e2.printStackTrace();
+            }
+        }
+        return bitmap;
     }
 }

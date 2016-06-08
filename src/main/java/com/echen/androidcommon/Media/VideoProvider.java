@@ -2,6 +2,7 @@ package com.echen.androidcommon.Media;
 
 import android.content.Context;
 import android.database.Cursor;
+import android.net.Uri;
 import android.provider.MediaStore;
 
 import java.util.ArrayList;
@@ -12,9 +13,11 @@ import java.util.List;
  */
 public class VideoProvider implements IMediaProvider {
     private Context context = null;
+    private String cacheThumbnailPath = "";
 
-    public VideoProvider(Context context){
+    public VideoProvider(Context context, String cacheThumbnailPath){
         this.context = context;
+        this.cacheThumbnailPath = cacheThumbnailPath;
     }
 
     @Override
@@ -56,6 +59,9 @@ public class VideoProvider implements IMediaProvider {
                     .getLong(cursor
                             .getColumnIndexOrThrow(MediaStore.Video.Media.SIZE));
             Video video = new Video(id, title, album, artist, displayName, mimeType, path, size, duration);
+
+            Uri thumbnailUri = video.tryToGetThumbnailUri(context, cacheThumbnailPath);
+            video.setThumbnailUri(thumbnailUri);
             list.add(video);
         }
         cursor.close();

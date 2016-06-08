@@ -3,8 +3,12 @@ package com.echen.androidcommon.Media;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
+import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.provider.MediaStore;
+
+import com.echen.androidcommon.Crypto.MD5Utility;
+import com.echen.androidcommon.Utility.ImageUtility;
 
 import java.io.File;
 
@@ -101,7 +105,7 @@ public class Video extends Media {
     }
 
     @Override
-    public Uri getThumbnailUrl(Context context) {
+    public Uri tryToGetThumbnailUri(Context context, String cacheThumbnailPath) {
         Uri uri = null;
         Uri videoUri = getVideoThumbnailContentUri();
         Cursor cursor = context.getContentResolver().query(videoUri, projection_thumbnail, selection_thumbnail, new String[] {String.valueOf(id)},null);
@@ -115,10 +119,40 @@ public class Video extends Media {
             String video_id = cursor.getString(cursor
                     .getColumnIndexOrThrow(MediaStore.Video.Thumbnails.VIDEO_ID));
 
-            if (!thumbnailPath.isEmpty())
-                uri = Uri.fromFile(new File(thumbnailPath));
+            if (!thumbnailPath.isEmpty()) {
+                File file = new File(thumbnailPath);
+                if (file.exists()) {
+                    uri = Uri.fromFile(file);
+                }
+                else {
+                    String pathMD5=MD5Utility.getMD5(getPath());
+                    String savedPath = cacheThumbnailPath + File.separator + pathMD5 + ".png";
+                    File cacheFile = new File(savedPath);
+                    if (cacheFile.exists())
+                    {
+                        uri = Uri.fromFile(cacheFile);
+                    }
+                    else {
+                        Bitmap bitmap = getVideoThumbnail(getPath(), 100, 100, MediaStore.Video.Thumbnails.MINI_KIND);
+                        if (ImageUtility.saveBitmapAsPng(bitmap, savedPath))
+                        {
+                            uri = Uri.fromFile(cacheFile);
+                        }
+                    }
+                }
+            }
             cursor.close();
         }
         return uri;
+    }
+
+    public Bitmap getVideoThumbnail(String filePath, int width, int height,
+                                 int kind) {
+        Bitmap bitmap = null;
+        bitmap = ThumbnailUtils.createVideoThumbnail(filePath, kind);
+        bitmap = ThumbnailUtils.extractThumbnail(bitmap, width, height,
+                ThumbnailUtils.OPTIONS_RECYCLE_INPUT);
+
+        return bitmap;
     }
 }

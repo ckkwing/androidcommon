@@ -12,15 +12,6 @@ import android.provider.MediaStore;
  */
 public class Image extends Media {
 
-    private Uri thumbnailUri = null;
-    public Uri getThumbnailUri() {
-        return thumbnailUri;
-    }
-
-    public void setThumbnailUri(Uri thumbnailUri) {
-        this.thumbnailUri = thumbnailUri;
-    }
-
     private String[] projection = new String[]{
             MediaStore.Images.Thumbnails.DATA,
             MediaStore.Images.Thumbnails.KIND
@@ -65,7 +56,7 @@ public class Image extends Media {
     }
 
     @Override
-    public Uri getThumbnailUrl(Context context) {
+    public Uri tryToGetThumbnailUri(Context context, String cacheThumbnailPath) {
         Uri uri = null;
         String strUri = "";
         Cursor cursor = MediaStore.Images.Thumbnails.queryMiniThumbnail(
