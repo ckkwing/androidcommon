@@ -241,4 +241,16 @@ public class ImageUtility {
         }
         return bState;
     }
+
+    public static ImageSize getImageSize(byte[] data){
+        ImageSize imageSize = new ImageSize();
+        BitmapFactory.Options options = new BitmapFactory.Options();
+        options.inJustDecodeBounds = true;
+        BitmapFactory.decodeByteArray(data, 0, 1);
+        int imageHeight = options.outHeight;
+        int imageWidth = options.outWidth;
+        String imageType = options.outMimeType;
+
+        return imageSize;
+    }
 }

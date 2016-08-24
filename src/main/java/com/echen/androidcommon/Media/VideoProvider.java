@@ -58,7 +58,13 @@ public class VideoProvider implements IMediaProvider {
             long size = cursor
                     .getLong(cursor
                             .getColumnIndexOrThrow(MediaStore.Video.Media.SIZE));
-            Video video = new Video(id, title, album, artist, displayName, mimeType, path, size, duration);
+            String dateAdded = cursor
+                    .getString(cursor
+                            .getColumnIndexOrThrow(MediaStore.Video.Media.DATE_ADDED));
+            String dateModified = cursor
+                    .getString(cursor
+                            .getColumnIndexOrThrow(MediaStore.Video.Media.DATE_MODIFIED));
+            Video video = new Video(id, title, album, artist, displayName, mimeType, path, size, duration, dateAdded, dateModified);
 
             Uri thumbnailUri = video.tryToGetThumbnailUri(context, cacheThumbnailPath);
             video.setThumbnailUri(thumbnailUri);

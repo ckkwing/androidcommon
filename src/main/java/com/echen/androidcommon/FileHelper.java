@@ -10,6 +10,8 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.StringReader;
+import java.net.FileNameMap;
+import java.net.URLConnection;
 
 /**
  * Created by echen on 2015/2/15.
@@ -120,5 +122,22 @@ public class FileHelper {
             bRel = false;
         }
         return bRel;
+    }
+
+    public static String guessMimeType(String path)
+    {
+        FileNameMap fileNameMap = URLConnection.getFileNameMap();
+        String contentTypeFor = fileNameMap.getContentTypeFor(path);
+        if (contentTypeFor == null)
+        {
+            contentTypeFor = "application/octet-stream";
+        }
+        return contentTypeFor;
+    }
+
+    public static String getFileName(String path)
+    {
+        int separatorIndex = path.lastIndexOf("/");
+        return (separatorIndex < 0) ? path : path.substring(separatorIndex + 1, path.length());
     }
 }

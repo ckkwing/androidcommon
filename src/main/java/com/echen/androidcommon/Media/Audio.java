@@ -6,6 +6,7 @@ import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
 import android.provider.MediaStore;
+import android.util.DebugUtils;
 
 import com.echen.androidcommon.Crypto.MD5Utility;
 import com.echen.androidcommon.FileSystem.File;
@@ -47,8 +48,8 @@ public class Audio extends Media {
      */
     public Audio(int id, String title, String album, String artist,
                  String path, String displayName, String mimeType, long duration,
-                 long size) {
-        super(id, title, displayName, mimeType, path, size);
+                 long size, String dateAdded, String dateModified) {
+        super(id, title, displayName, mimeType, path, size,dateAdded, dateModified);
         this.album = album;
         this.artist = artist;
         this.duration = duration;
@@ -87,19 +88,22 @@ public class Audio extends Media {
     @Override
     public Uri tryToGetThumbnailUri(Context context, String cacheThumbnailPath) {
         Uri uri = null;
-        String pathMD5= MD5Utility.getMD5(getPath());
-        String savedPath = cacheThumbnailPath + java.io.File.separator + pathMD5 + ".png";
-        java.io.File cacheFile = new java.io.File(savedPath);
-        if (cacheFile.exists())
-        {
-            uri = Uri.fromFile(cacheFile);
-        }
-        else {
-            Bitmap bitmap = createAlbumArt(getPath());
-            if (ImageUtility.saveBitmapAsPng(bitmap, savedPath))
-            {
+        try {
+            String pathMD5 = MD5Utility.getMD5(getPath());
+            String savedPath = cacheThumbnailPath + java.io.File.separator + pathMD5 + ".png";
+            java.io.File cacheFile = new java.io.File(savedPath);
+            if (cacheFile.exists()) {
                 uri = Uri.fromFile(cacheFile);
+            } else {
+                Bitmap bitmap = createAlbumArt(getPath());
+                if (ImageUtility.saveBitmapAsPng(bitmap, savedPath)) {
+                    uri = Uri.fromFile(cacheFile);
+                }
             }
+        }
+        catch (Exception e)
+        {
+            int i =0;
         }
         return uri;
     }

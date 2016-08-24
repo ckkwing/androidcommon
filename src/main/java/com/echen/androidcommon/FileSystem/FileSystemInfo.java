@@ -12,12 +12,14 @@ public class FileSystemInfo implements Serializable {
     protected String mimeType;
     protected String path;
     protected long size;
-    protected Boolean isSelected = null;
+    protected Boolean isSelected = false;
+    protected String dateAdded;
+    protected String dateModified;
 
     public FileSystemInfo(){}
 
     public FileSystemInfo(int id, String title, String displayName, String mimeType,
-                 String path, long size) {
+                 String path, long size, String dateAdded, String dateModified) {
         super();
         this.id = id;
         this.title = title;
@@ -25,6 +27,8 @@ public class FileSystemInfo implements Serializable {
         this.mimeType = mimeType;
         this.path = path;
         this.size = size;
+        this.dateAdded = dateAdded;
+        this.dateModified = dateModified;
     }
 
     public int getId() {
@@ -78,4 +82,20 @@ public class FileSystemInfo implements Serializable {
     public Boolean getIsSelected() { return isSelected; }
 
     public void setIsSelected(Boolean isSelected) { this.isSelected = isSelected; }
+
+    public String getDateAdded() {
+        return dateAdded;
+    }
+
+    public void setDateAdded(String dateAdded) {
+        this.dateAdded = dateAdded;
+    }
+
+    public String getDateModified() {
+        return dateModified;
+    }
+
+    public void setDateModified(String dateModified) {
+        this.dateModified = dateModified;
+    }
 }

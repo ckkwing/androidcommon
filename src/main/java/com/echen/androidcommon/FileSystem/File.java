@@ -13,9 +13,9 @@ public abstract class File extends FileSystemInfo {
     }
 
     public File(int id, String title, String displayName, String mimeType,
-                String path, long size)
+                String path, long size, String dateAdded, String dateModified)
     {
-        super(id, title, displayName, mimeType, path, size);
+        super(id, title, displayName, mimeType, path, size, dateAdded, dateModified);
     }
 
 //    public abstract Bitmap getThumbnail(Context context);

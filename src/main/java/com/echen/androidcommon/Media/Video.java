@@ -63,8 +63,8 @@ public class Video extends Media {
      */
     public Video(int id, String title, String album, String artist,
                  String displayName, String mimeType, String path, long size,
-                 long duration) {
-        super(id, title, displayName, mimeType, path, size);
+                 long duration, String dateAdded, String dateModified) {
+        super(id, title, displayName, mimeType, path, size,dateAdded, dateModified);
         this.album = album;
         this.artist = artist;
         this.duration = duration;
@@ -107,41 +107,42 @@ public class Video extends Media {
     @Override
     public Uri tryToGetThumbnailUri(Context context, String cacheThumbnailPath) {
         Uri uri = null;
-        Uri videoUri = getVideoThumbnailContentUri();
-        Cursor cursor = context.getContentResolver().query(videoUri, projection_thumbnail, selection_thumbnail, new String[] {String.valueOf(id)},null);
+        try {
+            Uri videoUri = getVideoThumbnailContentUri();
+            Cursor cursor = context.getContentResolver().query(videoUri, projection_thumbnail, selection_thumbnail, new String[]{String.valueOf(id)}, null);
 
-        if ((null != cursor) && cursor.moveToFirst())
-        {
-            String id = cursor.getString(cursor
-                    .getColumnIndexOrThrow(MediaStore.Video.Thumbnails._ID));
-            String thumbnailPath = cursor.getString(cursor
-                    .getColumnIndexOrThrow(MediaStore.Video.Thumbnails.DATA));
-            String video_id = cursor.getString(cursor
-                    .getColumnIndexOrThrow(MediaStore.Video.Thumbnails.VIDEO_ID));
+            if ((null != cursor) && cursor.moveToFirst()) {
+                String id = cursor.getString(cursor
+                        .getColumnIndexOrThrow(MediaStore.Video.Thumbnails._ID));
+                String thumbnailPath = cursor.getString(cursor
+                        .getColumnIndexOrThrow(MediaStore.Video.Thumbnails.DATA));
+                String video_id = cursor.getString(cursor
+                        .getColumnIndexOrThrow(MediaStore.Video.Thumbnails.VIDEO_ID));
 
-            if (!thumbnailPath.isEmpty()) {
-                File file = new File(thumbnailPath);
-                if (file.exists()) {
-                    uri = Uri.fromFile(file);
-                }
-                else {
-                    String pathMD5=MD5Utility.getMD5(getPath());
-                    String savedPath = cacheThumbnailPath + File.separator + pathMD5 + ".png";
-                    File cacheFile = new File(savedPath);
-                    if (cacheFile.exists())
-                    {
-                        uri = Uri.fromFile(cacheFile);
-                    }
-                    else {
-                        Bitmap bitmap = getVideoThumbnail(getPath(), 100, 100, MediaStore.Video.Thumbnails.MINI_KIND);
-                        if (ImageUtility.saveBitmapAsPng(bitmap, savedPath))
-                        {
+                if (!thumbnailPath.isEmpty()) {
+                    File file = new File(thumbnailPath);
+                    if (file.exists()) {
+                        uri = Uri.fromFile(file);
+                    } else {
+                        String pathMD5 = MD5Utility.getMD5(getPath());
+                        String savedPath = cacheThumbnailPath + File.separator + pathMD5 + ".png";
+                        File cacheFile = new File(savedPath);
+                        if (cacheFile.exists()) {
                             uri = Uri.fromFile(cacheFile);
+                        } else {
+                            Bitmap bitmap = getVideoThumbnail(getPath(), 100, 100, MediaStore.Video.Thumbnails.MINI_KIND);
+                            if (ImageUtility.saveBitmapAsPng(bitmap, savedPath)) {
+                                uri = Uri.fromFile(cacheFile);
+                            }
                         }
                     }
                 }
+                cursor.close();
             }
-            cursor.close();
+        }
+        catch (Exception e)
+        {
+            int i =0;
         }
         return uri;
     }

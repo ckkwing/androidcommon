@@ -58,8 +58,14 @@ public class AudioProvider implements IMediaProvider {
             long size = cursor
                     .getLong(cursor
                             .getColumnIndexOrThrow(MediaStore.Audio.Media.SIZE));
+            String dateAdded = cursor
+                    .getString(cursor
+                            .getColumnIndexOrThrow(MediaStore.Audio.Media.DATE_ADDED));
+            String dateModified = cursor
+                    .getString(cursor
+                            .getColumnIndexOrThrow(MediaStore.Audio.Media.DATE_MODIFIED));
             Audio audio = new Audio(id, title, album, artist, path,
-                    displayName, mimeType, duration, size);
+                    displayName, mimeType, duration, size, dateAdded, dateModified);
 
             Uri thumbnailUri = audio.tryToGetThumbnailUri(context, cacheThumbnailPath);
             audio.setThumbnailUri(thumbnailUri);

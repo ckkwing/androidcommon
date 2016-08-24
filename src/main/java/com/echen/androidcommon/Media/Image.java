@@ -31,8 +31,8 @@ public class Image extends Media {
      * @param size
      */
     public Image(int id, String title, String displayName, String mimeType,
-                 String path, long size) {
-        super(id, title, displayName, mimeType, path, size);
+                 String path, long size, String dateAdded, String dateModified) {
+        super(id, title, displayName, mimeType, path, size,dateAdded, dateModified);
         this.mediaType = MediaCenter.MediaType.Image;
     }
 
@@ -58,22 +58,27 @@ public class Image extends Media {
     @Override
     public Uri tryToGetThumbnailUri(Context context, String cacheThumbnailPath) {
         Uri uri = null;
-        String strUri = "";
-        Cursor cursor = MediaStore.Images.Thumbnails.queryMiniThumbnail(
-                context.getContentResolver(), this.id,
-                MediaStore.Images.Thumbnails.MICRO_KIND,
-                null);
-        if (cursor != null && cursor.getCount() > 0) {
-            cursor.moveToFirst();
-            strUri = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Thumbnails.DATA));
-            if (!strUri.isEmpty())
-            {
-                uri = Uri.parse(strUri);
+        try {
+            String strUri = "";
+            Cursor cursor = MediaStore.Images.Thumbnails.queryMiniThumbnail(
+                    context.getContentResolver(), this.id,
+                    MediaStore.Images.Thumbnails.MICRO_KIND,
+                    null);
+            if (cursor != null && cursor.getCount() > 0) {
+                cursor.moveToFirst();
+                strUri = cursor.getString(cursor.getColumnIndex(MediaStore.Images.Thumbnails.DATA));
+                if (!strUri.isEmpty()) {
+                    uri = Uri.parse(strUri);
+                }
             }
+            if (null != cursor)
+                cursor.close();
         }
-        if (null != cursor)
-            cursor.close();
+        catch (Exception e)
+        {
+            int i =0;
 
+        }
         return uri;
     }
 }

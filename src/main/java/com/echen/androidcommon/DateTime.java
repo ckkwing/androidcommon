@@ -312,4 +312,19 @@ public class DateTime {
         Log.d(TAG, "end equal, return true");
         return true;
     }
+
+    public static Date StringToDate(String str, String format) {
+        String strFormat = (null == format || format.isEmpty()) ? DATETIME_FORMAT : format;
+        DateFormat dateFormat = new SimpleDateFormat(strFormat);
+        Date date = null;
+        try
+        {
+            date = dateFormat.parse(str);
+        }
+        catch (ParseException e) {
+            e.printStackTrace();
+        }
+
+        return date;
+    }
 }

@@ -1,5 +1,6 @@
 package com.echen.androidcommon.Media;
 
+import android.content.ContentResolver;
 import android.content.Context;
 import android.database.Cursor;
 import android.graphics.Bitmap;
@@ -51,8 +52,14 @@ public class ImageProvider implements IMediaProvider {
             long size = cursor
                     .getLong(cursor
                             .getColumnIndexOrThrow(MediaStore.Images.Media.SIZE));
+            String dateAdded = cursor
+                    .getString(cursor
+                            .getColumnIndexOrThrow(MediaStore.Images.Media.DATE_ADDED));
+            String dateModified = cursor
+                    .getString(cursor
+                            .getColumnIndexOrThrow(MediaStore.Images.Media.DATE_MODIFIED));
             Image image = new Image(id, title, displayName, mimeType,
-                    path, size);
+                    path, size, dateAdded, dateModified);
 //            Uri uri = Uri.parse(path);
             Uri thumbnailUri = image.tryToGetThumbnailUri(context, cacheThumbnailPath);
             image.setThumbnailUri(thumbnailUri);
