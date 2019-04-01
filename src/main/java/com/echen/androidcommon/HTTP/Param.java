@@ -1,4 +1,4 @@
-package com.echen.androidcommon.HTTP;
+package com.echen.androidcommon.http;
 
 /**
  * Created by echen on 2016/7/18.

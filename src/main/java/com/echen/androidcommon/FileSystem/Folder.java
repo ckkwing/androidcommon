@@ -1,4 +1,4 @@
-package com.echen.androidcommon.FileSystem;
+package com.echen.androidcommon.filesystem;
 
 import java.util.ArrayList;
 import java.util.List;

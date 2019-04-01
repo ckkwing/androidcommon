@@ -1,4 +1,4 @@
-package com.echen.androidcommon.Utility;
+package com.echen.androidcommon.utility;
 
 import android.content.ContentResolver;
 import android.database.Cursor;

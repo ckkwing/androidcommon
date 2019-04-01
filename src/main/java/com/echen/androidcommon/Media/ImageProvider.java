@@ -1,4 +1,4 @@
-package com.echen.androidcommon.Media;
+package com.echen.androidcommon.media;
 
 import android.content.ContentResolver;
 import android.content.Context;

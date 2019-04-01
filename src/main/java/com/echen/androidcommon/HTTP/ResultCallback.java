@@ -1,4 +1,4 @@
-package com.echen.androidcommon.HTTP;
+package com.echen.androidcommon.http;
 
 import java.lang.reflect.ParameterizedType;
 import java.lang.reflect.Type;

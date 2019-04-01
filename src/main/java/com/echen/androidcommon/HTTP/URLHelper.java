@@ -1,4 +1,4 @@
-package com.echen.androidcommon.HTTP;
+package com.echen.androidcommon.http;
 
 import java.io.UnsupportedEncodingException;
 import java.net.URLDecoder;

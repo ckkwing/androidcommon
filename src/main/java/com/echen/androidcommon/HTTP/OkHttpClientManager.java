@@ -1,9 +1,9 @@
-package com.echen.androidcommon.HTTP;
+package com.echen.androidcommon.http;
 
 import android.os.Handler;
 import android.os.Looper;
 import android.widget.ImageView;
-import com.echen.androidcommon.FileHelper;
+import com.echen.androidcommon.utility.FileUtility;
 import com.google.gson.Gson;
 import com.google.gson.JsonParseException;
 import java.io.File;
@@ -300,7 +300,7 @@ public class OkHttpClientManager {
             for (int i = 0; i < files.length; i++) {
                 File file = files[i];
                 String fileName = file.getName();
-                fileBody = RequestBody.create(MediaType.parse(FileHelper.guessMimeType(fileName)), file);
+                fileBody = RequestBody.create(MediaType.parse(FileUtility.guessMimeType(fileName)), file);
                 //TODO set contentType according to file name
                 builder.addPart(Headers.of("Content-Disposition",
                         "form-data; name=\"" + fileKeys[i] + "\"; filename=\"" + fileName + "\""),
@@ -329,7 +329,7 @@ public class OkHttpClientManager {
             FileOutputStream fileOutputStream = null;
             try {
                 inputStream = response.body().byteStream();
-                String name = FileHelper.getFileName(url);
+                String name = FileUtility.getFileName(url);
                 if (null != postfix)
                 {
                     name += postfix;
@@ -381,7 +381,7 @@ public class OkHttpClientManager {
                 FileOutputStream fileOutputStream = null;
                 try {
                     inputStream = response.body().byteStream();
-                    String name = FileHelper.getFileName(url);
+                    String name = FileUtility.getFileName(url);
                     if (null != postfix)
                     {
                         name += postfix;

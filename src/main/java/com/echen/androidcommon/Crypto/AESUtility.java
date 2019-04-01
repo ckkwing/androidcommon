@@ -1,6 +1,6 @@
-package com.echen.androidcommon.Crypto;
+package com.echen.androidcommon.crypto;
 
-import com.echen.androidcommon.FileHelper;
+import com.echen.androidcommon.utility.FileUtility;
 
 import java.io.File;
 import java.io.FileInputStream;
@@ -9,16 +9,13 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.OutputStream;
-import java.io.UnsupportedEncodingException;
 import java.security.InvalidKeyException;
 import java.security.NoSuchAlgorithmException;
 import java.security.SecureRandom;
 
-import javax.crypto.BadPaddingException;
 import javax.crypto.Cipher;
 import javax.crypto.CipherInputStream;
 import javax.crypto.CipherOutputStream;
-import javax.crypto.IllegalBlockSizeException;
 import javax.crypto.KeyGenerator;
 import javax.crypto.NoSuchPaddingException;
 import javax.crypto.SecretKey;
@@ -96,7 +93,7 @@ public class AESUtility {
         OutputStream outputStream = null;
         try {
             inputStream = new FileInputStream(sourceFile);
-            encryptedfile = FileHelper.createNewFile(directory, encryptedFileName);
+            encryptedfile = FileUtility.createNewFile(directory, encryptedFileName);
             outputStream = new FileOutputStream(encryptedfile);
             Cipher cipher = initAESCipher(key, Cipher.ENCRYPT_MODE);
             CipherInputStream cipherInputStream = new CipherInputStream(inputStream, cipher);
@@ -172,7 +169,7 @@ public class AESUtility {
         InputStream inputStream = null;
         OutputStream outputStream = null;
         try {
-            decryptedfile = FileHelper.createNewFile(directory, decryptedFileName);
+            decryptedfile = FileUtility.createNewFile(directory, decryptedFileName);
             Cipher cipher = initAESCipher(key, Cipher.DECRYPT_MODE);
             inputStream = new FileInputStream(sourceFile);
             outputStream = new FileOutputStream(decryptedfile);

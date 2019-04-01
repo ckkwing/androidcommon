@@ -1,4 +1,4 @@
-package com.echen.androidcommon.Media;
+package com.echen.androidcommon.media;
 
 import java.util.List;
 

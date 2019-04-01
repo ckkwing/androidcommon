@@ -1,4 +1,4 @@
-package com.echen.androidcommon.Utility;
+package com.echen.androidcommon.utility;
 
 /**
  * Created by echen on 2016/7/18.

@@ -1,4 +1,4 @@
-package com.echen.androidcommon.Crypto;
+package com.echen.androidcommon.crypto;
 
 import android.util.Base64;
 

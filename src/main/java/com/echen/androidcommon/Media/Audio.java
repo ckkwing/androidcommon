@@ -1,16 +1,12 @@
-package com.echen.androidcommon.Media;
+package com.echen.androidcommon.media;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.media.MediaMetadataRetriever;
 import android.net.Uri;
-import android.provider.MediaStore;
-import android.util.DebugUtils;
-
-import com.echen.androidcommon.Crypto.MD5Utility;
-import com.echen.androidcommon.FileSystem.File;
-import com.echen.androidcommon.Utility.ImageUtility;
+import com.echen.androidcommon.crypto.MD5Utility;
+import com.echen.androidcommon.utility.ImageUtility;
 
 /**
  * Created by echen on 2015/1/27.

@@ -30,7 +30,7 @@ public class CrashHandler implements Thread.UncaughtExceptionHandler {
     public void init(Application app) {
         Log.i("CrashHandler", "init()");
         this.app = app;
-        // 设置该类为线程默认UncatchException的处理器。
+
         Thread.setDefaultUncaughtExceptionHandler(this);
     }
 

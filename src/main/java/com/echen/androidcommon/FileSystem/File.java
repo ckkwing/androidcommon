@@ -1,4 +1,4 @@
-package com.echen.androidcommon.FileSystem;
+package com.echen.androidcommon.filesystem;
 
 import android.content.Context;
 import android.graphics.Bitmap;

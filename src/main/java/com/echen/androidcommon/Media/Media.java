@@ -1,10 +1,11 @@
-package com.echen.androidcommon.Media;
+package com.echen.androidcommon.media;
 
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
 
-import com.echen.androidcommon.FileSystem.File;
+import com.echen.androidcommon.filesystem.File;
+
 
 /**
  * Created by echen on 2016/5/27.

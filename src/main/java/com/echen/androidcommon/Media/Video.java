@@ -1,4 +1,4 @@
-package com.echen.androidcommon.Media;
+package com.echen.androidcommon.media;
 
 import android.content.Context;
 import android.database.Cursor;
@@ -6,9 +6,8 @@ import android.graphics.Bitmap;
 import android.media.ThumbnailUtils;
 import android.net.Uri;
 import android.provider.MediaStore;
-
-import com.echen.androidcommon.Crypto.MD5Utility;
-import com.echen.androidcommon.Utility.ImageUtility;
+import com.echen.androidcommon.crypto.MD5Utility;
+import com.echen.androidcommon.utility.ImageUtility;
 
 import java.io.File;
 
