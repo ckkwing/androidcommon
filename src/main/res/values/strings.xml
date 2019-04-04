@@ -1,3 +1,7 @@
 <resources>
-    <string name="app_name">AndroidCommon</string>
+    <string name="common_name">AndroidCommon</string>
+    <string name="common_all">All</string>
+    <string name="common_photos">Photos</string>
+    <string name="common_videos">Videos</string>
+    <string name="common_audios">Audios</string>
 </resources>

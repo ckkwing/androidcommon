@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="common_all">所有的</string>
+    <string name="common_photos">图片</string>
+    <string name="common_videos">视频</string>
+    <string name="common_audios">音频</string>
+</resources>
