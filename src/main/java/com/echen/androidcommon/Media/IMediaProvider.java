@@ -5,6 +5,6 @@ import java.util.List;
 /**
  * Created by echen on 2015/1/27.
  */
-public interface IMediaProvider {
-    public List<?> getList();
+public interface IMediaProvider<T extends Media> {
+    List<T> getList();
 }

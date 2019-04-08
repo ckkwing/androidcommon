@@ -94,11 +94,19 @@ public class DeleteHandler implements ExistingEntityHandler {
 			responseHandler.respondDeleteFailed(request, response, r, Status.SC_LOCKED);
 			return;
 		}
-
-		deleteHelper.delete(r, manager.getEventManager());
-		log.debug("deleted ok");
+		int err = 0;
+		try {
+			deleteHelper.delete(r, manager.getEventManager());
+		} catch (RuntimeException e) {
+			log.debug(e.getMessage());
+		} catch (NotAuthorizedException e) {
+			log.debug(e.getMessage());
+		} catch (BadRequestException e) {
+			log.debug(e.getMessage());
+		} catch (Exception e) {
+			log.debug(e.getMessage());
+		}
 		responseHandler.respondNoContent(resource, response, request);
-
 	}
 
 	public DeleteHelper getDeleteHelper() {

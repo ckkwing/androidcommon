@@ -306,6 +306,7 @@ public class PutHandler implements Handler {
 			responseHandler.respondUnauthorised(replacee, response, request);
 			return;
 		}
+		long err = 0;
 		try {
 			Range range = putHelper.parseContentRange(replacee, request);
 			if (range != null) {
@@ -361,10 +362,18 @@ public class PutHandler implements Handler {
 				Long l = request.getContentLengthHeader();
 				replacee.replaceContent(request.getInputStream(), l);
 			}
+		} catch(BadRequestException e) {
+			log.error(e.getMessage());
+		} catch(NotAuthorizedException e) {
+			log.error(e.getMessage());
+		} catch(ConflictException e) {
+			log.error(e.getMessage());
 		} catch (IOException ex) {
-			log.warn("IOException reading input stream. Probably interrupted upload: " + ex.getMessage());
-			return;
+//			log.warn("IOException reading input stream. Probably interrupted upload: " + ex.getMessage());
+//			return;
+			log.error(ex.getMessage());
 		}
+
 		// Respond with a 204
 		responseHandler.respondNoContent(replacee, response, request);
 

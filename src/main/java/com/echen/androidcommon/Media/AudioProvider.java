@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by echen on 2015/1/27.
  */
-public class AudioProvider implements IMediaProvider {
+public class AudioProvider implements IMediaProvider<Audio> {
     private Context context = null;
     private String cacheThumbnailPath = "";
 
@@ -20,8 +20,9 @@ public class AudioProvider implements IMediaProvider {
         this.cacheThumbnailPath = cacheThumbnailPath;
     }
 
+
     @Override
-    public List<?> getList() {
+    public List<Audio> getList() {
         List<Audio> list = new ArrayList<Audio>();
         if (null == context)
             return list;

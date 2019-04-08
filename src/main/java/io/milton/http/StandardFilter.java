@@ -19,6 +19,8 @@
 package io.milton.http;
 
 import com.echen.androidcommon.utility.FileUtility;
+import com.echen.androidcommon.utility.Utility;
+
 import io.milton.http.exceptions.BadRequestException;
 import io.milton.http.exceptions.ConflictException;
 import io.milton.http.exceptions.NotAuthorizedException;

@@ -11,7 +11,7 @@ import java.util.List;
 /**
  * Created by echen on 2015/1/29.
  */
-public class VideoProvider implements IMediaProvider {
+public class VideoProvider implements IMediaProvider<Video> {
     private Context context = null;
     private String cacheThumbnailPath = "";
 
@@ -21,7 +21,7 @@ public class VideoProvider implements IMediaProvider {
     }
 
     @Override
-    public List<?> getList() {
+    public List<Video> getList() {
         List<Video> list = new ArrayList<Video>();
         if (null == context)
             return list;
