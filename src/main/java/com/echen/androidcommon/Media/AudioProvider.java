@@ -1,5 +1,6 @@
 package com.echen.androidcommon.media;
 
+import android.content.ContentUris;
 import android.content.Context;
 import android.database.Cursor;
 import android.net.Uri;
@@ -41,6 +42,9 @@ public class AudioProvider implements IMediaProvider<Audio> {
             String album = cursor
                     .getString(cursor
                             .getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM));
+            long albumId =  cursor
+                    .getLong(cursor
+                            .getColumnIndexOrThrow(MediaStore.Audio.Media.ALBUM_ID));
             String artist = cursor
                     .getString(cursor
                             .getColumnIndexOrThrow(MediaStore.Audio.Media.ARTIST));
@@ -65,11 +69,13 @@ public class AudioProvider implements IMediaProvider<Audio> {
             String dateModified = cursor
                     .getString(cursor
                             .getColumnIndexOrThrow(MediaStore.Audio.Media.DATE_MODIFIED));
-            Audio audio = new Audio(id, title, album, artist, path,
+            Audio audio = new Audio(id, title, album, albumId, artist, path,
                     displayName, mimeType, duration, size, dateAdded, dateModified);
 
-            Uri thumbnailUri = audio.tryToGetThumbnailUri(context, cacheThumbnailPath);
-            audio.setThumbnailUri(thumbnailUri);
+            //Uri thumbnailUri = audio.tryToGetThumbnailUri(context, cacheThumbnailPath);
+            Uri sArtworkUri = Uri.parse("content://media/external/audio/albumart");
+            Uri imgUri = ContentUris.withAppendedId(sArtworkUri, albumId);
+            audio.setThumbnailUri(imgUri);
             list.add(audio);
         }
         cursor.close();

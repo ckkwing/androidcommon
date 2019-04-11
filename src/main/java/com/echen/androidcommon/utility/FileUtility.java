@@ -1,7 +1,20 @@
 package com.echen.androidcommon.utility;
 
 import android.content.Context;
+import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
+import android.net.Uri;
+import android.os.Build;
 import android.os.Environment;
+import android.support.v4.content.FileProvider;
+import android.text.TextUtils;
+import android.widget.Toast;
+
+import com.echen.androidcommon.R;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
@@ -15,11 +28,15 @@ import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.net.FileNameMap;
 import java.net.URLConnection;
+import java.util.Objects;
+import io.milton.common.ContentTypeUtils;
+import wseemann.media.FFmpegMediaMetadataRetriever;
 
 /**
  * Created by echen on 2015/2/15.
  */
 public class FileUtility {
+    private static Logger log = LoggerFactory.getLogger(FileUtility.class);
 
     public static boolean isExist(String filePath) {
         File file = new File(filePath);
@@ -127,19 +144,16 @@ public class FileUtility {
         return bRel;
     }
 
-    public static String guessMimeType(String path)
-    {
+    public static String guessMimeType(String path) {
         FileNameMap fileNameMap = URLConnection.getFileNameMap();
         String contentTypeFor = fileNameMap.getContentTypeFor(path);
-        if (contentTypeFor == null)
-        {
+        if (contentTypeFor == null) {
             contentTypeFor = "application/octet-stream";
         }
         return contentTypeFor;
     }
 
-    public static String getFileName(String path)
-    {
+    public static String getFileName(String path) {
         int separatorIndex = path.lastIndexOf("/");
         return (separatorIndex < 0) ? path : path.substring(separatorIndex + 1, path.length());
     }
@@ -170,5 +184,84 @@ public class FileUtility {
             }
         }
         return null;
+    }
+
+    public static Bitmap createAudioThumbnail(String filePath) {
+        Bitmap bitmap = null;
+        File file = new File(filePath);
+        if (!file.exists())
+            return null;
+        FFmpegMediaMetadataRetriever retriever = new FFmpegMediaMetadataRetriever();
+        try {
+            retriever.setDataSource(filePath);
+            retriever.extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_ALBUM);
+            retriever.extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_ARTIST);
+            byte[] art = retriever.getEmbeddedPicture();
+            bitmap = BitmapFactory.decodeByteArray(art, 0, art.length);
+        } catch (IllegalArgumentException ex) {
+        } catch (RuntimeException ex) {
+        } finally {
+            try {
+                retriever.release();
+            } catch (RuntimeException ex) {
+                // Ignore failures while cleaning up.
+            }
+        }
+        return bitmap;
+    }
+
+    public static Bitmap createVideoThumbnail(String filePath, long usFrameAtTime) {
+        Bitmap bitmap = null;
+        File file = new File(filePath);
+        if (!file.exists())
+            return null;
+        FFmpegMediaMetadataRetriever retriever = new FFmpegMediaMetadataRetriever();
+        try {
+            retriever.setDataSource(filePath);
+            retriever.extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_ALBUM);
+            retriever.extractMetadata(FFmpegMediaMetadataRetriever.METADATA_KEY_ARTIST);
+            bitmap = retriever.getFrameAtTime(usFrameAtTime, FFmpegMediaMetadataRetriever.OPTION_CLOSEST);
+        } catch (IllegalArgumentException ex) {
+        } catch (RuntimeException ex) {
+        } finally {
+            try {
+                retriever.release();
+            } catch (RuntimeException ex) {
+                // Ignore failures while cleaning up.
+            }
+        }
+        return bitmap;
+    }
+
+    public static void openFileByDefaultApp(Context context, String filePath, String packageName){
+        if (null == context || TextUtils.isEmpty(filePath) || TextUtils.isEmpty(packageName))
+            return;
+        try {
+            File file = new File(filePath);
+            if (!file.exists())
+                return;
+            Intent intent = new Intent(Intent.ACTION_VIEW);
+            //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+            String type = ContentTypeUtils.findContentTypes(file);
+            Uri uri;
+            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
+                uri = FileProvider.getUriForFile(context, packageName + ".fileprovider", file);
+            } else {
+                uri = Uri.fromFile(file);
+            }
+            intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
+            intent.setDataAndType(uri, type);
+            if (intent.resolveActivity(context.getPackageManager()) != null) {
+                context.startActivity(Intent.createChooser(intent, context.getString(R.string.common_select_application_to_open)));
+            }
+            else {
+                Objects.requireNonNull(log).warn("Cannot open file \'%s\' by default player", filePath);
+                Toast.makeText(context, R.string.common_msg_install_default_player, Toast.LENGTH_LONG).show();
+            }
+        }
+        catch (Exception e)
+        {
+            Objects.requireNonNull(log).error("Open file \'%s\' exception: ", e.getCause());
+        }
     }
 }

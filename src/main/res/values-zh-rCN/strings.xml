@@ -1,7 +1,11 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
+    <string name="common_name">AndroidCommon</string>
     <string name="common_all">所有的</string>
     <string name="common_photos">图片</string>
     <string name="common_videos">视频</string>
     <string name="common_audios">音频</string>
+    <string name="common_select_application_to_open">请选择应用程序打开文件</string>
+    <string name="common_msg_install_default_player">请安装播放器进行播放</string>
+
 </resources>

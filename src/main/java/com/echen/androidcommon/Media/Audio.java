@@ -8,6 +8,8 @@ import android.net.Uri;
 import com.echen.androidcommon.crypto.MD5Utility;
 import com.echen.androidcommon.utility.ImageUtility;
 
+import wseemann.media.FFmpegMediaMetadataRetriever;
+
 /**
  * Created by echen on 2015/1/27.
  */
@@ -16,6 +18,7 @@ public class Audio extends Media {
 //    private int id;
 //    private String title;
     private String album;
+    private long albumId;
     private String artist;
 //    private String path;
 //    private String displayName;
@@ -42,11 +45,12 @@ public class Audio extends Media {
      * @param duration
      * @param size
      */
-    public Audio(int id, String title, String album, String artist,
+    public Audio(int id, String title, String album, long albumId, String artist,
                  String path, String displayName, String mimeType, long duration,
                  long size, String dateAdded, String dateModified) {
         super(id, title, displayName, mimeType, path, size,dateAdded, dateModified);
         this.album = album;
+        this.albumId = albumId;
         this.artist = artist;
         this.duration = duration;
         this.mediaType = MediaCenter.MediaType.Audio;
@@ -107,7 +111,7 @@ public class Audio extends Media {
     public Bitmap createAlbumArt(final String filePath) {
         Bitmap bitmap = null;
         //能够获取多媒体文件元数据的类
-        MediaMetadataRetriever retriever = new MediaMetadataRetriever();
+        FFmpegMediaMetadataRetriever retriever = new FFmpegMediaMetadataRetriever();
         try {
             retriever.setDataSource(filePath); //设置数据源
             byte[] embedPic = retriever.getEmbeddedPicture(); //得到字节型数据

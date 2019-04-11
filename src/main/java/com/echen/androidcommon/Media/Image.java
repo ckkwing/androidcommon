@@ -60,6 +60,7 @@ public class Image extends Media {
         Uri uri = null;
         try {
             String strUri = "";
+
             Cursor cursor = MediaStore.Images.Thumbnails.queryMiniThumbnail(
                     context.getContentResolver(), this.id,
                     MediaStore.Images.Thumbnails.MICRO_KIND,

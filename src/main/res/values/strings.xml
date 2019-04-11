@@ -4,4 +4,6 @@
     <string name="common_photos">Photos</string>
     <string name="common_videos">Videos</string>
     <string name="common_audios">Audios</string>
+    <string name="common_select_application_to_open">Select application to open file</string>
+    <string name="common_msg_install_default_player">Please install application to play</string>
 </resources>

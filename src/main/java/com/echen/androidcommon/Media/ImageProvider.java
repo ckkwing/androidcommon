@@ -7,6 +7,7 @@ import android.graphics.Bitmap;
 import android.net.Uri;
 import android.provider.MediaStore;
 
+import java.io.File;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -61,8 +62,9 @@ public class ImageProvider implements IMediaProvider<Image> {
                     path, size, dateAdded, dateModified);
 //            Uri uri = Uri.parse(path);
             Uri thumbnailUri = image.tryToGetThumbnailUri(context, cacheThumbnailPath);
+            if (null == thumbnailUri)
+                thumbnailUri = Uri.fromFile(new File(path));
             image.setThumbnailUri(thumbnailUri);
-
             list.add(image);
         }
         cursor.close();
