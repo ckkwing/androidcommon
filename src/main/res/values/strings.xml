@@ -1,6 +1,10 @@
 <resources>
     <string name="common_name">AndroidCommon</string>
     <string name="common_all">All</string>
+    <string name="common_edit">Edit</string>
+    <string name="common_cancel">Cancel</string>
+    <string name="common_select_all">Select all</string>
+    <string name="common_select_none">UnSelect all</string>
     <string name="common_photos">Photos</string>
     <string name="common_videos">Videos</string>
     <string name="common_audios">Audios</string>
