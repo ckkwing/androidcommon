@@ -250,7 +250,13 @@ public class FileUtility {
                 uri = Uri.fromFile(file);
             }
             intent.addFlags(Intent.FLAG_GRANT_READ_URI_PERMISSION | Intent.FLAG_GRANT_WRITE_URI_PERMISSION);
-            intent.setDataAndType(uri, type);
+            String[] typeArray = type.split(",");
+            String convertedType = "";
+            if (typeArray.length > 0)
+            {
+                convertedType = typeArray[0];
+            }
+            intent.setDataAndType(uri, convertedType);
             if (intent.resolveActivity(context.getPackageManager()) != null) {
                 context.startActivity(Intent.createChooser(intent, context.getString(R.string.common_select_application_to_open)));
             }

@@ -13,20 +13,6 @@ import android.support.v7.app.AppCompatActivity;
  * Created by echen on 2015/11/16.
  */
 public class BaseActivity extends AppCompatActivity {
-    protected enum PageMode{
-        Normal,
-        Edit
-    }
-
-    protected PageMode mCurrentPageMode = PageMode.Normal;
-    protected PageMode getCurrentPageMode() {
-        return mCurrentPageMode;
-    }
-
-    protected void setCurrentPageMode(PageMode currentPageMode) {
-        this.mCurrentPageMode = currentPageMode;
-    }
-
 //    protected String LANGUAGE_CODE_ENGLISH = "en";
 
     @Override
