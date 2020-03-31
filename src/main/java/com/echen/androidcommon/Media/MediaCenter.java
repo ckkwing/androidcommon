@@ -1,7 +1,6 @@
 package com.echen.androidcommon.media;
 
 import android.content.Context;
-import android.provider.MediaStore;
 
 /**
  * Created by echen on 2015/2/11.
@@ -20,13 +19,13 @@ public class MediaCenter {
         switch (mediaType)
         {
             case Image:
-                iMediaProvider = new ImageProvider(context, cacheThumbnailPath);
+                iMediaProvider = new LocalImageProvider(context, cacheThumbnailPath);
                 break;
             case Video:
-                iMediaProvider = new VideoProvider(context, cacheThumbnailPath);
+                iMediaProvider = new LocalVideoProvider(context, cacheThumbnailPath);
                 break;
             case Audio:
-                iMediaProvider = new AudioProvider(context, cacheThumbnailPath);
+                iMediaProvider = new LocalAudioProvider(context, cacheThumbnailPath);
                 break;
             default:
                 break;

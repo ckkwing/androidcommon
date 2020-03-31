@@ -65,6 +65,46 @@ public class FileUtility {
         return bRel;
     }
 
+    public static boolean createFile(File file){
+        boolean bRel = false;
+        try{
+            if(file.getParentFile().exists()){
+                log.debug("----- Create file" + file.getAbsolutePath());
+                bRel = file.createNewFile();
+            }
+            else {
+                if (createDir(file.getParentFile().getAbsolutePath())) {
+                    bRel = file.createNewFile();
+                    log.debug("----- Create file" + file.getAbsolutePath());
+                }
+            }
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return bRel;
+    }
+
+    public static boolean createDir(String dirPath){
+        boolean bRel = false;
+        try{
+            File file=new File(dirPath);
+            if(file.getParentFile().exists()){
+                log.debug("----- Create folder" + file.getAbsolutePath());
+                bRel =file.mkdir();
+            }
+            else {
+                createDir(file.getParentFile().getAbsolutePath());
+                log.debug("----- Create folder" + file.getAbsolutePath());
+                bRel = file.mkdir();
+            }
+
+        }catch (Exception e){
+            e.printStackTrace();
+        }
+        return bRel;
+    }
+
+
     public static File createNewFile(String directory, String fileName) {
         File newFile = null;
         File tmpDirFile = new File(directory);
@@ -242,7 +282,8 @@ public class FileUtility {
                 return;
             Intent intent = new Intent(Intent.ACTION_VIEW);
             //intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-            String type = ContentTypeUtils.findContentTypes(file);
+            //String type = ContentTypeUtils.findContentTypes(file);
+            String type = guessMimeType(filePath);
             Uri uri;
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.N) {
                 uri = FileProvider.getUriForFile(context, packageName + ".fileprovider", file);

@@ -11,11 +11,11 @@ import java.util.List;
 /**
  * Created by echen on 2015/1/29.
  */
-public class VideoProvider implements IMediaProvider<Video> {
+public class LocalVideoProvider implements IMediaProvider<Video> {
     private Context context = null;
     private String cacheThumbnailPath = "";
 
-    public VideoProvider(Context context, String cacheThumbnailPath){
+    public LocalVideoProvider(Context context, String cacheThumbnailPath){
         this.context = context;
         this.cacheThumbnailPath = cacheThumbnailPath;
     }

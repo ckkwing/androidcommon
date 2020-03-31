@@ -12,11 +12,11 @@ import java.util.List;
 /**
  * Created by echen on 2015/1/27.
  */
-public class AudioProvider implements IMediaProvider<Audio> {
+public class LocalAudioProvider implements IMediaProvider<Audio> {
     private Context context = null;
     private String cacheThumbnailPath = "";
 
-    public AudioProvider(Context context, String cacheThumbnailPath) {
+    public LocalAudioProvider(Context context, String cacheThumbnailPath) {
         this.context = context;
         this.cacheThumbnailPath = cacheThumbnailPath;
     }

@@ -14,11 +14,11 @@ import java.util.List;
 /**
  * Created by echen on 2015/1/27.
  */
-public class ImageProvider implements IMediaProvider<Image> {
+public class LocalImageProvider implements IMediaProvider<Image> {
     private Context context = null;
     private String cacheThumbnailPath = "";
 
-    public ImageProvider(Context context, String cacheThumbnailPath) {
+    public LocalImageProvider(Context context, String cacheThumbnailPath) {
         this.context = context;
         this.cacheThumbnailPath = cacheThumbnailPath;
     }
